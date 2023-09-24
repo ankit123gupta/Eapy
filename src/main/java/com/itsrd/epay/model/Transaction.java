@@ -2,20 +2,23 @@ package com.itsrd.epay.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.elasticsearch.annotations.Document;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Document(indexName = "transaction")
+@Entity
+@Table(name = "transaction")
 public class Transaction {
 
-    @JsonIgnore
-    private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @JsonIgnore
+    private Long id;
 
     @NotNull
     private String remitterPhoneNo;
@@ -31,7 +34,7 @@ public class Transaction {
 
     private String remark;
 
-    private java.util.Date createdAt;
+    private String createdAt;
 
     public Transaction(String remitterPhoneNo, String type, Double amount, String description, String remark) {
         this.remitterPhoneNo = remitterPhoneNo;
@@ -39,6 +42,6 @@ public class Transaction {
         this.amount = amount;
         this.description = description;
         this.remark = remark;
-        this.createdAt = new java.util.Date();
+        this.createdAt = String.valueOf(new java.util.Date());
     }
 }
